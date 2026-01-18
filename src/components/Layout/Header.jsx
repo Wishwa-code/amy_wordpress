@@ -1,5 +1,6 @@
 import { Search, User, Heart, ShoppingBag, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -14,9 +15,9 @@ const Header = () => {
     }, []);
 
     const navLinks = [
-        { name: 'HOME', href: '#' },
-        { name: 'SHOP', href: '#' },
-        { name: 'PRODUCTS', href: '#' },
+        { name: 'HOME', href: '/' },
+        { name: 'SHOP', href: '/shop' },
+        { name: 'PRODUCTS', href: '/shop' },
         { name: 'ABOUT US', href: '#' },
         { name: 'BLOG', href: '#' },
         { name: 'CONTACT US', href: '#' },
@@ -38,21 +39,21 @@ const Header = () => {
 
                 {/* Logo */}
                 <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
-                    <a href="/" className="text-3xl font-serif font-bold tracking-tighter text-brand-primary">
+                    <Link to="/" className="text-3xl font-serif font-bold tracking-tighter text-brand-primary">
                         AMY
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center space-x-8 mx-auto">
                     {navLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.href}
+                            to={link.href}
                             className="text-[12px] font-medium tracking-widest text-[#2A1B10] hover:text-brand-primary transition-colors duration-200"
                         >
                             {link.name}
-                        </a>
+                        </Link>
                     ))}
                 </nav>
 
@@ -80,14 +81,14 @@ const Header = () => {
             {isMobileMenuOpen && (
                 <div className="fixed inset-0 bg-white z-40 lg:hidden flex flex-col items-center justify-center space-y-8">
                     {navLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.href}
+                            to={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="text-xl font-serif text-brand-primary tracking-widest"
                         >
                             {link.name}
-                        </a>
+                        </Link>
                     ))}
                 </div>
             )}
