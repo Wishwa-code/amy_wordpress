@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { ShoppingBag, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
     return (
@@ -18,20 +19,22 @@ const ProductCard = ({ product }) => {
                     </span>
                 )}
 
-                <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
+                <Link to={`/product/${product.slug}`} className="block w-full h-full">
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                </Link>
 
                 {/* Hover Actions */}
-                <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex space-x-2">
+                <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex space-x-2 pointer-events-none group-hover:pointer-events-auto">
                     <button className="flex-grow bg-brand-primary text-white py-2 text-[10px] font-bold tracking-widest hover:bg-brand-dark transition-colors flex items-center justify-center gap-2">
                         <ShoppingBag size={14} /> ADD TO CART
                     </button>
-                    <button className="bg-white text-brand-primary p-2 hover:bg-brand-accent hover:text-white transition-colors">
+                    <Link to={`/product/${product.slug}`} className="bg-white text-brand-primary p-2 hover:bg-brand-accent hover:text-white transition-colors flex items-center justify-center">
                         <Eye size={16} />
-                    </button>
+                    </Link>
                 </div>
             </div>
 
@@ -39,9 +42,11 @@ const ProductCard = ({ product }) => {
                 <p className="text-[10px] text-brand-accent font-medium tracking-widest uppercase mb-1">
                     {product.category}
                 </p>
-                <h3 className="text-sm font- serif text-[#2A1B10] mb-1 group-hover:text-brand-primary transition-colors">
-                    {product.name}
-                </h3>
+                <Link to={`/product/${product.slug}`}>
+                    <h3 className="text-sm font-serif text-[#2A1B10] mb-1 group-hover:text-brand-primary transition-colors">
+                        {product.name}
+                    </h3>
+                </Link>
                 <p className="text-sm font-bold text-brand-primary">
                     ${product.price}
                 </p>
