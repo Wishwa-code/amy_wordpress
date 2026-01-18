@@ -33,6 +33,35 @@ export const wordpressService = {
         }
     },
 
+    async getProductBySlug(slug) {
+        try {
+            const response = await wpClient.get(`/product?slug=${slug}&_embed=1`);
+            if (response.data.length === 0) return null;
+
+            const item = response.data[0];
+            // Handle class_list as either array or object
+            const classes = Array.isArray(item.class_list)
+                ? item.class_list
+                : Object.values(item.class_list || {});
+
+            return {
+                id: item.id,
+                name: item.title?.rendered || 'Unnamed Product',
+                price: item._price || item.meta?._price || '0.00',
+                description: item.content?.rendered || '',
+                shortDescription: item.excerpt?.rendered || '',
+                image: item._embedded?.['wp:featuredmedia']?.[0]?.source_url || '/assets/prod-serum.png',
+                category: item._embedded?.['wp:term']?.[0]?.[0]?.name || 'Uncategorized',
+                isNew: classes.some(cls => cls.includes('product_cat-new-arrivals')),
+                slug: item.slug,
+                gallery: item._embedded?.['wp:featuredmedia']?.map(img => img.source_url) || []
+            };
+        } catch (error) {
+            console.error('Error fetching product by slug:', error);
+            return null;
+        }
+    },
+
     async getPosts() {
         try {
             const response = await wpClient.get('/posts?_embed=1');
